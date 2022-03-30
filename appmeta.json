@@ -1,0 +1,20 @@
+{
+    "activationClass":"none",
+    "dependsOn": ["None"],
+    "embeddedOutput":"false",
+    "executeDxAdapter":"true",
+    "img":"none",
+    "inWorkflow":"true",
+    "inputs":["analysisDir"],
+    "name":"vcMerge_GX", 
+    "outputs":["./outputs"],
+    "payOption":"Free",
+    "runAllowed":"ASSAY",
+    "isThumbnail":"true",
+    "runOnceOnly":"true",
+    "scriptLauncher":"vcMerge_GX.py",
+    "validWorkflowAppTypes":["DNA", "RNA", "DNA_RNA"],
+    "variantAnnotationKeys":["type"],
+    "vendorActivation":"/share/apps/",
+    "ver":"1.0.0.0"
+}
