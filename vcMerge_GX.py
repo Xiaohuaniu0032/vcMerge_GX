@@ -5,7 +5,6 @@
 # vcMerge plugin on Genexus
 # 2022/3/29
 
-import common
 import glob
 import sys
 import subprocess
@@ -32,13 +31,15 @@ class vcMerge_GX(IonPlugin):
     return self.startplugin
 
   def merge(self):
-    plugin_result_dir = self.startplugin_json['plugin'].get('results_dir')
+    plugin_result_dir = self.startplugin_json['runinfo']['plugin'].get('results_dir')
     lane_info_dir     = self.startplugin_json['runinfo'].get('analysis_dir')
 
     print "plugin result dir is: %s" % (plugin_result_dir)
     print "lane dir is: %s" % (lane_info_dir)
 
-    cmd = "perl %s/merge_main.pl %s %s" % (lane_info_dir,plugin_result_dir)
+    abs_path = os.path.abspath(__file__)
+    this_dir = dirname(abs_path)
+    cmd = "perl %s/merge_main.pl %s %s" % (this_dir,lane_info_dir,plugin_result_dir)
     print "cmd is %s" % (cmd)
 
     print "Start running the vcMerge_GX plugin."
