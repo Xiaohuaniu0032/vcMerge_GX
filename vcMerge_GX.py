@@ -47,7 +47,7 @@ class vcMerge_GX(IonPlugin):
 
   def launch(self,data=None):
     self.merge()
-    with open("vcMerge_GX.html","w") as f:
+    with open("vcMerge_GX_block.html","w") as f:
       f.write('<html><body>To download: "Right Click" -> "Save Link As..."<br>\n')
       for merge_vcf in glob.glob('*.merged.vcf.xls'):
         print(merge_vcf)
