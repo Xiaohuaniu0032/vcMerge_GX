@@ -4,7 +4,7 @@ use File::Basename;
 use Getopt::Long;
 use FindBin qw/$Bin/;
 
-my ($report_dir,$outdir) = @ARGV;
+my ($report_dir,$outfile) = @ARGV;
 
 my @Snvindel_tsv = glob "$report_dir/*/outputs/VcMetricActor-00/Snvindel.tsv"; # same as alleles.xls
 my $tsv_num = scalar(@Snvindel_tsv);
@@ -51,9 +51,9 @@ for my $vcf (@cov_vcf){
 	close TSV;
 }
 
-my $plugin_run_num = basename($outdir);
-my $outfile = "$outdir/$plugin_run_num\.TSVC_variants.merged.vcf.xls";
-print "[Merge VCF is]: $outfile\n";
+#my $plugin_run_num = basename($outdir);
+#my $outfile = "$outdir/$plugin_run_num\.TSVC_variants.merged.vcf.xls";
+#print "[Merge VCF is]: $outfile\n";
 
 ############## header info
 # Chrom/Position/Ref/Variant/IonXpress_001.Freq/IonXpress_002.Freq/.../

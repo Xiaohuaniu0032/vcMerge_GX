@@ -33,13 +33,17 @@ class vcMerge_GX(IonPlugin):
   def merge(self):
     plugin_result_dir = self.startplugin_json['runinfo']['plugin'].get('results_dir')
     lane_info_dir     = self.startplugin_json['runinfo'].get('analysis_dir')
+    results_name      = self.startplugin_json['expmeta'].get('results_name')
+    outfile = "%s/%s.TSVC_variants.merged.vcf.xls" % (plugin_result_dir,results_name)
 
     print "plugin result dir is: %s" % (plugin_result_dir)
     print "lane dir is: %s" % (lane_info_dir)
+    print "outfile is: %s" % (outfile)
 
     abs_path = os.path.abspath(__file__)
     this_dir = os.path.dirname(abs_path)
-    cmd = "perl %s/merge_main.pl %s %s" % (this_dir,lane_info_dir,plugin_result_dir)
+    #cmd = "perl %s/merge_main.pl %s %s" % (this_dir,lane_info_dir,plugin_result_dir)
+    cmd = "perl %s/merge_main.pl %s %s" % (this_dir,lane_info_dir,outfile)
     print "cmd is %s" % (cmd)
 
     print "Start running the vcMerge_GX plugin."
