@@ -1,6 +1,6 @@
-# vcMerge
+# vcMerge_GX
 
-### 旧版variantCallerMerge已经不用
+### vcMerge plugin on Genexus
 
 ### 插件目的
 如果一张芯片上了多个新冠样本，为了检查哪些突变是共检出，哪些突变是只有少数样本检出，需要肉眼比较不同样本的VCF文件，比较耗时。
