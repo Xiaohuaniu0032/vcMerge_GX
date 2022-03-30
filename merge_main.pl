@@ -28,21 +28,7 @@ my %sample_vars; # 记录特定样本的变异
 my %all_vars;    # 记录这个run下所有样本的变异
 my %sample;      # 样本名称(barcode编号)
 
-
-my $outfile = "$outdir/$dir\.TSVC_variants.merged.vcf.xls";
-print "[Merge VCF is]: $outfile\n";
-# Chrom/Position/Ref/Variant/IonXpress_001.Freq/IonXpress_002.Freq/.../
-# 2019-nCoV/210/G/T/1/0.98/.../
-open O, ">$outfile" or die;
-# header info
-print O "Chrom\tPosition\tRef\tVariant";
-my @barcode = keys %sample;
-my @barcode_sort = sort {$a cmp $b} @barcode;
-for my $s (@barcode_sort){
-	print O "\t$s";
-}
-print O "\n";
-
+# read all var info from all sample
 for my $vcf (@cov_vcf){
 	my $sample_name = (split /\//, $vcf)[-4];
 	$sample{$sample_name} = 1;
@@ -63,32 +49,50 @@ for my $vcf (@cov_vcf){
 		push @{$all_vars{$pos}}, $var; # 1) one pos may has diff variants; 2) may contain dup vars
 	}
 	close TSV;
-
-	# sort variant by pos
-	foreach my $pos (sort { $a <=> $b } keys %all_vars){
-		my $var_aref = $all_vars{$pos}; # one pos may have multi var type
-		my %uniq_var;
-		for my $var (@{$var_aref}){
-			$uniq_var{$var} = 1;
-		}
-
-		for my $var (keys %uniq_var){ # 2019-nCoV:210:G:T
-			my @var = split /\:/, $var;
-			print O "$var[0]\t$var[1]\t$var[2]\t$var[3]";
-			for my $s (@barcode_sort){
-				my $freq;
-				if (exists $sample_vars{$s}{$var}){
-					$freq = $sample_vars{$s}{$var};
-				}else{
-					$freq = "NA";
-				}
-				print O "\t$freq";
-			}
-			print O "\n";
-		}
-	}
-	close O;
 }
+
+my $plugin_run_num = basename($outdir);
+my $outfile = "$outdir/$plugin_run_num\.TSVC_variants.merged.vcf.xls";
+print "[Merge VCF is]: $outfile\n";
+
+############## header info
+# Chrom/Position/Ref/Variant/IonXpress_001.Freq/IonXpress_002.Freq/.../
+# 2019-nCoV/210/G/T/1/0.98/.../
+open O, ">$outfile" or die;
+
+print O "Chrom\tPosition\tRef\tVariant";
+my @barcode = keys %sample;
+my @barcode_sort = sort {$a cmp $b} @barcode;
+for my $s (@barcode_sort){
+	print O "\t$s";
+}
+print O "\n";
+
+
+# sort variant by pos
+foreach my $pos (sort { $a <=> $b } keys %all_vars){
+	my $var_aref = $all_vars{$pos}; # one pos may have multi var type
+	my %uniq_var;
+	for my $var (@{$var_aref}){
+		$uniq_var{$var} = 1;
+	}
+
+	for my $var (keys %uniq_var){ # 2019-nCoV:210:G:T
+		my @var = split /\:/, $var;
+		print O "$var[0]\t$var[1]\t$var[2]\t$var[3]";
+		for my $s (@barcode_sort){
+			my $freq;
+			if (exists $sample_vars{$s}{$var}){
+				$freq = $sample_vars{$s}{$var};
+			}else{
+				$freq = "NA";
+			}
+			print O "\t$freq";
+		}
+		print O "\n";
+	}
+}
+close O;
 
 
 sub check_if_cov2_vcf{
