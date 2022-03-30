@@ -38,7 +38,7 @@ class vcMerge_GX(IonPlugin):
     print "lane dir is: %s" % (lane_info_dir)
 
     abs_path = os.path.abspath(__file__)
-    this_dir = dirname(abs_path)
+    this_dir = os.path.dirname(abs_path)
     cmd = "perl %s/merge_main.pl %s %s" % (this_dir,lane_info_dir,plugin_result_dir)
     print "cmd is %s" % (cmd)
 
